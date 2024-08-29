@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:spordle/components/guess_song_dropdown.dart';
+import 'package:spordle/components/guess_song_lifebar.dart';
 import 'package:spordle/components/round_rectangular_button.dart';
 import 'package:spordle/components/song_tile.dart';
 import 'package:spordle/components/spordle_scaffold.dart';
@@ -16,23 +17,24 @@ class GuessPage extends StatefulWidget {
 }
 
 class _GuessPageState extends State<GuessPage> {
+  static const int _maxGuesses = 5;
   Song? song;
   bool _isPlaying = false;
   bool _hasGuessed = false;
   bool _hasLost = false;
-  int _guesses = 5;
+  int _guesses = 0;
 
   // What happens when a user takes a guess
   void _onGuess(bool isCorrect) {
     if (!isCorrect) {
       setState(() {
-        _guesses--;
+        _guesses++;
       });
 
       Fluttertoast.showToast(msg: "You have $_guesses guesses");
     }
 
-    if (_guesses == 0) {
+    if (_guesses == _maxGuesses) {
       // Game over
       setState(() {
         _hasLost = true;
@@ -45,6 +47,7 @@ class _GuessPageState extends State<GuessPage> {
     if (isCorrect) {
       Fluttertoast.showToast(msg: "Correct answer!");
       setState(() {
+        _guesses++;
         _hasGuessed = true;
       });
     }
@@ -84,6 +87,10 @@ class _GuessPageState extends State<GuessPage> {
               isSelected: _isPlaying,
               select: _playAudio,
               isPlaying: _isPlaying),
+          GuessSongLifebar(
+              maxGuesses: _maxGuesses,
+              lastGuess: _guesses,
+              hasGuessed: _hasGuessed),
           GuessSongDropdown(
               songlist: songlist,
               correctSong: song!,
@@ -93,7 +100,8 @@ class _GuessPageState extends State<GuessPage> {
               width: MediaQuery.of(context).size.width,
               margin: const EdgeInsets.symmetric(horizontal: 10),
               child: RoundRectangularButton(
-                  labelText: "Submit your guess", onPressAction: () {})),
+                  labelText: "Play again on this playlist",
+                  onPressAction: () {})),
         ]));
   }
 }
