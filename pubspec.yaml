@@ -13,6 +13,9 @@ dependencies:
   flutter:
     sdk: flutter
   fluttertoast: ^8.2.8
+  audioplayers: ^6.1.0
+  just_audio: ^0.9.40
+  assets_audio_player: ^3.1.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -53,6 +56,15 @@ flutter:
     - assets/yuicrystaleyes.jpg
     - assets/yuimelodyfair.jpg
     - assets/yuipresent.jpg
+    - assets/gutsaka.jpg
+    - assets/huh.jpg
+    - assets/songs/01_03_lovesick (feat. ぷにぷに電機).flac
+    - assets/songs/Aice room(Nor) - Rainbow sorbet.flac
+    - assets/songs/Aice room(Nor) - Luv U.flac
+    - assets/songs/01_03_変身 (feat. Dirty Androids).flac
+    - assets/songs/part1.mp3
+    - assets/songs/part2.mp3
+    - assets/songs/part3.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

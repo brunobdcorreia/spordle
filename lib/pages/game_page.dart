@@ -1,5 +1,7 @@
+import 'package:just_audio/just_audio.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
+// import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:spordle/components/mystery_display.dart';
 import 'package:spordle/components/spordle_scaffold.dart';
 import 'package:spordle/constants/songs.dart';
 import 'dart:math';
@@ -12,8 +14,15 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
-  final List<String> _revealedLetters = [];
   Song? song;
+  String _guess = '';
+  final AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
+
+  @override
+  void initState() {
+    super.initState();
+    _playRandomSegment();
+  }
 
   Song _selectRandomSong(List<Song> songlist) {
     Random random = Random();
@@ -22,42 +31,57 @@ class _GamePageState extends State<GamePage> {
     return songlist[randomIndex];
   }
 
+  void _playRandomSegment() async {
+    song = _selectRandomSong(songlist);
+    print(song!.title);
+
+    assetsAudioPlayer.open(
+      Audio.file(song!.songFilePath),
+    );
+    assetsAudioPlayer.setVolume(0.5);
+    assetsAudioPlayer.play();
+
+    await Future.delayed(const Duration(seconds: 10));
+    assetsAudioPlayer.stop();
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<Song> songlist =
         ModalRoute.of(context)?.settings.arguments as List<Song>;
 
-    // The null assessment prevents the song from changing by just refreshing
-    // the page
-    if (songlist.isNotEmpty) {
-      song ??= _selectRandomSong(songlist);
-    }
-
-    // Pick the next song or go back
-    void pickSongOrReturn() {
-      songlist.remove(song);
-      if (songlist.isNotEmpty) {
-        setState(() {
-          song = null; // Will force a new song to be chosen
-        });
-      } else {
-        Navigator.of(context).pop();
-      }
-    }
-
-    void revealLetter(String letter) {
-      setState(() {
-        _revealedLetters.add(letter);
-      });
-    }
-
-    return SpordleScaffold(
-        pageTitleText: "Game",
-        content: Column(children: [
-          TextButton(onPressed: pickSongOrReturn, child: Text(song!.title)),
-          const Text("Guess the song"),
-          MysteryDisplay(text: song!.title, revealedLetters: _revealedLetters),
-          GuessLetterGrid(text: song!.title, onTapBlock: revealLetter),
-        ]));
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Game Page'),
+      ),
+      body: Column(
+        children: [
+          const Center(
+            child: Text('Guess the name of the song by typing below'),
+          ),
+          DropdownMenu<String>(
+            initialSelection:
+                'Select a song', // Set the initial value of the dropdown
+            dropdownMenuEntries: songlist.map((Song song) {
+              return DropdownMenuEntry<String>(
+                value: song.title,
+                label: song.title,
+              );
+            }).toList(),
+            onSelected: (String? newValue) {
+              setState(() {
+                _guess = newValue!;
+              });
+            },
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (_guess == song!.title) {}
+            },
+            child: const Text('Guess'),
+          ),
+        ],
+      ),
+    );
   }
 }
