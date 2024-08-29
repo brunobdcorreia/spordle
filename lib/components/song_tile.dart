@@ -5,11 +5,13 @@ import 'package:spordle/constants/spordle_borders.dart';
 class SongTile extends StatefulWidget {
   final Song song;
   final bool isSelected;
+  final bool? isPlaying;
   final Function(bool) select;
   const SongTile(
       {super.key,
       required this.song,
       required this.isSelected,
+      this.isPlaying,
       required this.select});
 
   @override
@@ -61,30 +63,46 @@ class _SongTitleState extends State<SongTile> {
 
     return GestureDetector(
         onTap: _switch,
-        child: Container(
-            margin: const EdgeInsets.all(10),
-            padding: const EdgeInsets.all(10),
-            height: MediaQuery.of(context).size.height / 6,
-            decoration: BoxDecoration(
-              color: colors["background"],
-              borderRadius: SpordleBorders.tiltBorders,
-            ),
-            child: Row(children: [
-              Image.asset(widget.song.albumCoverImagePath, fit: BoxFit.contain),
-              Expanded(
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(widget.song.title, style: boldTextStyle),
-                            const Spacer(),
-                            Text(widget.song.album, style: semiBoldTextStyle),
-                            Text(widget.song.artist, style: lightTextStyle),
-                            Text(widget.song.genre, style: lightTextStyle),
-                            Text(widget.song.year, style: lightTextStyle),
-                          ])))
-            ])));
+        child: Stack(children: [
+          Container(
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
+              height: MediaQuery.of(context).size.height / 6,
+              decoration: BoxDecoration(
+                color: colors["background"],
+                borderRadius: SpordleBorders.tiltBorders,
+              ),
+              child: Row(children: [
+                Image.asset(widget.song.albumCoverImagePath,
+                    fit: BoxFit.contain),
+                Expanded(
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(widget.song.title, style: boldTextStyle),
+                              const Spacer(),
+                              Text(widget.song.album, style: semiBoldTextStyle),
+                              Text(widget.song.artist, style: lightTextStyle),
+                              Text(widget.song.genre, style: lightTextStyle),
+                              Text(widget.song.year, style: lightTextStyle),
+                            ])))
+              ])),
+          widget.isPlaying != null
+              ? Container(
+                  height: MediaQuery.of(context).size.height /
+                      6, // Same as song tile
+                  width: MediaQuery.of(context).size.width,
+                  alignment: Alignment.center,
+                  child: Icon(
+                      widget.isPlaying! ? Icons.pause : Icons.play_arrow,
+                      color: widget.isPlaying!
+                          ? Theme.of(context).colorScheme.onPrimary
+                          : Theme.of(context).colorScheme.primary,
+                      size: 60))
+              : Container()
+        ]));
   }
 }

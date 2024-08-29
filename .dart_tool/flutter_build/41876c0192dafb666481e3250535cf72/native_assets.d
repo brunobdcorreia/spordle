@@ -1,0 +1,1 @@
+ /home/kaio/Work/spordle/.dart_tool/flutter_build/41876c0192dafb666481e3250535cf72/native_assets.yaml: 

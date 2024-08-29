@@ -44,7 +44,7 @@ class _SelectSongsPageState extends State<SelectSongsPage> {
       songsToPlay.add(songlist[index]);
     }
 
-    Navigator.pushNamed(context, '/game', arguments: songsToPlay);
+    Navigator.pushNamed(context, '/guess', arguments: songsToPlay);
   }
 
   @override
