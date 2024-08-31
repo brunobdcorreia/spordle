@@ -32,17 +32,18 @@ class _StatisticState extends State<Statistic> {
 
     for (int i = 0; i < games.length; i++) {
       final game = games[i].split(",");
-      final hasGuessed = game[2] == "true";
+      print(game);
+      final hasGuessed = game[2];
+      print(game[2]);
 
-      if (hasGuessed) {
+      if (hasGuessed.contains("true")) {
         wins++;
         winStreak++;
+        if (winStreak >= maxWinStreak) {
+          maxWinStreak = winStreak;
+        }
       } else {
         winStreak = 0;
-      }
-
-      if (winStreak > maxWinStreak) {
-        maxWinStreak = winStreak;
       }
     }
 
