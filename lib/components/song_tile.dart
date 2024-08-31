@@ -7,12 +7,15 @@ class SongTile extends StatefulWidget {
   final bool isSelected;
   final bool? isPlaying;
   final Function(bool) select;
+  final bool? hasLost;
+
   const SongTile(
       {super.key,
       required this.song,
       required this.isSelected,
       this.isPlaying,
-      required this.select});
+      required this.select,
+      this.hasLost});
 
   @override
   State<StatefulWidget> createState() => _SongTitleState();

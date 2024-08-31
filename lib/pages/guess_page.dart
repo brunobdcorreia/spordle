@@ -92,7 +92,7 @@ class _GuessPageState extends State<GuessPage> {
         content: Column(children: [
           const Text("Tap the track to play it"),
           SongTile(
-              song: _hasGuessed ? song! : mysterySong,
+              song: _hasGuessed || _hasLost ? song! : mysterySong,
               isSelected: _isPlaying,
               select: _playAudio,
               isPlaying: _isPlaying),
