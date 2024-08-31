@@ -17,17 +17,42 @@ class _StatisticState extends State<Statistic> {
 
   @override
   void initState() {
-    super.initState();
     _loadStatistics();
+    super.initState();
   }
 
   Future<void> _loadStatistics() async {
     final prefs = await SharedPreferences.getInstance();
+    final List<String> games = prefs.getStringList('games') ?? [];
+
+    int gamesPlayed = games.length;
+    int wins = 0;
+    int winStreak = 0;
+    int maxWinStreak = 0;
+
+    for (int i = 0; i < games.length; i++) {
+      final game = games[i].split(",");
+      final hasGuessed = game[2] == "true";
+
+      if (hasGuessed) {
+        wins++;
+        winStreak++;
+      } else {
+        winStreak = 0;
+      }
+
+      if (winStreak > maxWinStreak) {
+        maxWinStreak = winStreak;
+      }
+    }
+
+    double winRate = (wins / gamesPlayed) * 100;
+
     setState(() {
-      gamesPlayed = prefs.getString('gamesPlayed') ?? "0";
-      winRate = prefs.getString('winRate') ?? "0";
-      winStreak = prefs.getString('winStreak') ?? "0";
-      maxWinStreak = prefs.getString('maxWinStreak') ?? "0";
+      this.gamesPlayed = gamesPlayed.toString();
+      this.winRate = winRate.toStringAsFixed(2);
+      this.winStreak = winStreak.toString();
+      this.maxWinStreak = maxWinStreak.toString();
     });
   }
 

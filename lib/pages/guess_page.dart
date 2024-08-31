@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:spordle/components/guess_song_dropdown.dart';
 import 'package:spordle/components/guess_song_lifebar.dart';
 import 'package:spordle/components/round_rectangular_button.dart';
 import 'package:spordle/components/song_tile.dart';
 import 'package:spordle/components/spordle_scaffold.dart';
 import 'package:spordle/components/spordle_text_input.dart';
+import 'package:spordle/constants/game.dart';
 import 'package:spordle/constants/playlists.dart';
 import 'package:spordle/constants/songs.dart';
 import 'dart:math';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GuessPage extends StatefulWidget {
   const GuessPage({super.key});
@@ -43,7 +46,7 @@ class _GuessPageState extends State<GuessPage> {
       });
 
       Fluttertoast.showToast(msg: "You've failed to guess the song!");
-      return;
+      _saveGameHistory();
     }
 
     if (isCorrect) {
@@ -52,6 +55,8 @@ class _GuessPageState extends State<GuessPage> {
         _guesses++;
         _hasGuessed = true;
       });
+
+      _saveGameHistory();
     }
   }
 
@@ -60,6 +65,19 @@ class _GuessPageState extends State<GuessPage> {
     setState(() {
       _isPlaying = !_isPlaying;
     });
+  }
+
+  Future<void> _saveGameHistory() async {
+    final Game game =
+        Game(song: song!, guesses: _guesses, hasGuessed: _hasGuessed);
+
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> games = prefs.getStringList('games') ?? [];
+    games.add(game.toString());
+
+    await prefs.setStringList('games', games);
+
+    print(prefs.getStringList('games'));
   }
 
   @override
