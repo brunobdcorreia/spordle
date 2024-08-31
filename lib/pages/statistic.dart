@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spordle/components/spordle_scaffold.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Statistic extends StatefulWidget {
   const Statistic({super.key});
@@ -9,40 +10,61 @@ class Statistic extends StatefulWidget {
 }
 
 class _StatisticState extends State<Statistic> {
+  String gamesPlayed = "0";
+  String winRate = "0";
+  String winStreak = "0";
+  String maxWinStreak = "0";
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStatistics();
+  }
+
+  Future<void> _loadStatistics() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      gamesPlayed = prefs.getString('gamesPlayed') ?? "0";
+      winRate = prefs.getString('winRate') ?? "0";
+      winStreak = prefs.getString('winStreak') ?? "0";
+      maxWinStreak = prefs.getString('maxWinStreak') ?? "0";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SpordleScaffold(
         pageTitleText: "Statistics",
         content: Column(
           children: <Widget>[
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: StatisticWidget(
-                    value: "1",
+                    value: gamesPlayed,
                     description: "Games played",
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: StatisticWidget(
-                    value: "100",
+                    value: winRate,
                     description: "% win rate",
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: StatisticWidget(
-                    value: "1",
+                    value: winStreak,
                     description: "Win streak",
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: StatisticWidget(
-                    value: "1",
+                    value: maxWinStreak,
                     description: "Max win streak",
                   ),
                 ),

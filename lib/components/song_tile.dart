@@ -82,12 +82,32 @@ class _SongTitleState extends State<SongTile> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text(widget.song.title, style: boldTextStyle),
-                              const Spacer(),
-                              Text(widget.song.album, style: semiBoldTextStyle),
-                              Text(widget.song.artist, style: lightTextStyle),
-                              Text(widget.song.genre, style: lightTextStyle),
-                              Text(widget.song.year, style: lightTextStyle),
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 5),
+                                      child: Text(widget.song.title,
+                                          style: boldTextStyle),
+                                    ),
+                                    //const Spacer(),
+                                    Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Text(widget.song.album,
+                                              style: semiBoldTextStyle),
+                                          Text(widget.song.artist,
+                                              style: lightTextStyle),
+                                          Text(widget.song.genre,
+                                              style: lightTextStyle),
+                                          Text(widget.song.year,
+                                              style: lightTextStyle),
+                                        ]),
+                                  ]),
                             ])))
               ])),
           widget.isPlaying != null
