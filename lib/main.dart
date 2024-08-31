@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spordle/pages/boot_page.dart';
 import 'package:spordle/pages/game_page.dart';
 import 'package:spordle/pages/guess_page.dart';
+import 'package:spordle/pages/select_playlists_page.dart';
 import 'package:spordle/pages/select_songs_page.dart';
 import 'package:spordle/pages/statistic.dart';
 
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => const BootPage(),
-          '/select': (context) => const SelectSongsPage(),
+          // '/select': (context) => const SelectSongsPage(),
+          '/select': (context) => const SelectPlaylistsPage(),
           '/game': (context) => const GamePage(),
           '/guess': (context) => const GuessPage(),
           '/statistic': (context) => const Statistic(),

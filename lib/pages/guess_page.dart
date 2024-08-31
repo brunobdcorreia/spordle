@@ -6,6 +6,7 @@ import 'package:spordle/components/round_rectangular_button.dart';
 import 'package:spordle/components/song_tile.dart';
 import 'package:spordle/components/spordle_scaffold.dart';
 import 'package:spordle/components/spordle_text_input.dart';
+import 'package:spordle/constants/playlists.dart';
 import 'package:spordle/constants/songs.dart';
 import 'dart:math';
 
@@ -19,6 +20,7 @@ class GuessPage extends StatefulWidget {
 class _GuessPageState extends State<GuessPage> {
   static const int _maxGuesses = 5;
   Song? song;
+  List<Song> songlist = [];
   bool _isPlaying = false;
   bool _hasGuessed = false;
   bool _hasLost = false;
@@ -62,14 +64,21 @@ class _GuessPageState extends State<GuessPage> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Playlist> playlistlist =
+        ModalRoute.of(context)?.settings.arguments as List<Playlist>;
+
     final List<Song> songlist =
-        ModalRoute.of(context)?.settings.arguments as List<Song>;
+        playlistlist.expand((playlist) => playlist.songs).toList();
 
     Song selectRandomSong() {
       Random random = Random();
-      int randomIndex = random.nextInt(songlist.length);
+      List<Song> allSongsList = [];
 
-      return songlist[randomIndex];
+      playlistlist.forEach((playlist) {
+        allSongsList.addAll(playlist.songs);
+      });
+
+      return allSongsList[random.nextInt(allSongsList.length)];
     }
 
     // The null assessment prevents the song from changing by just refreshing
