@@ -26,7 +26,7 @@ class _GuessPageState extends State<GuessPage> {
       audio_player.AssetsAudioPlayer();
   Song? song;
   List<Song> songlist = [];
-  bool _isPlaying = false;
+  bool _isPlaying = true;
   bool _hasGuessed = false;
   bool _hasLost = false;
   int _guesses = 0;
