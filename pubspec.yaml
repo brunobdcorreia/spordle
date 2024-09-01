@@ -17,6 +17,8 @@ dependencies:
   audioplayers: ^6.1.0
   just_audio: ^0.9.40
   assets_audio_player: ^3.1.1
+  build_runner:
+  bdd_widget_test: ^1.7.4
 
 
   # The following adds the Cupertino Icons font to your application.

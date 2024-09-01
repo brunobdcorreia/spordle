@@ -96,12 +96,12 @@ class _StatisticState extends State<Statistic> {
                 ),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                StreakWidget(),
-              ],
-            )
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: <Widget>[
+            //     StreakWidget(),
+            //   ],
+            // )
           ],
         ));
   }
