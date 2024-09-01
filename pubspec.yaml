@@ -44,12 +44,14 @@ flutter:
     - assets/akinaheadphones.jpg
     - assets/akinapossibility.jpg
     - assets/akinaprologue.jpg
+    - assets/cachorro-irado.jpg
     - assets/chisatomite.jpg
     - assets/chisatothemoritaka.jpg
     - assets/meiko303east60thst.jpg
     - assets/meikopuzzle.jpg
     - assets/meikorussianroulette.jpg
     - assets/mihoonnaninaare.jpg
+    - assets/Styley! Vol 2.png
     - assets/oginomekaigaraterasu.jpg
     - assets/oginomeraspberrywind.jpg
     - assets/oginomevergeoflove.jpg
@@ -58,6 +60,10 @@ flutter:
     - assets/yuicrystaleyes.jpg
     - assets/yuimelodyfair.jpg
     - assets/yuipresent.jpg
+    - assets/songs/Aice room(Nor) - Luv U.flac
+    - assets/songs/01_01_フライミ_菅原圭.wav
+    - assets/songs/01_03_変身 (feat. Dirty Androids).flac
+    - assets/songs/PSYQUI - 就寝御礼.flac
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

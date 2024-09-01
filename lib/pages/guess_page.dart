@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:assets_audio_player/assets_audio_player.dart' as audio_player;
 import 'package:spordle/components/guess_song_dropdown.dart';
 import 'package:spordle/components/guess_song_lifebar.dart';
 import 'package:spordle/components/round_rectangular_button.dart';
 import 'package:spordle/components/song_tile.dart';
 import 'package:spordle/components/spordle_scaffold.dart';
-import 'package:spordle/components/spordle_text_input.dart';
+import 'dart:async';
 import 'package:spordle/constants/game.dart';
-import 'package:spordle/constants/playlists.dart';
+import 'package:spordle/constants/playlists.dart' as sp_playlist;
 import 'package:spordle/constants/songs.dart';
 import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,21 +22,30 @@ class GuessPage extends StatefulWidget {
 
 class _GuessPageState extends State<GuessPage> {
   static const int _maxGuesses = 5;
+  final audio_player.AssetsAudioPlayer _audioPlayer =
+      audio_player.AssetsAudioPlayer();
   Song? song;
   List<Song> songlist = [];
   bool _isPlaying = false;
   bool _hasGuessed = false;
   bool _hasLost = false;
   int _guesses = 0;
+  int _maxDuration = 10;
+  Timer? _timer;
 
   // What happens when a user takes a guess
   void _onGuess(bool isCorrect) {
     if (!isCorrect) {
       setState(() {
         _guesses++;
+        _maxDuration += 10;
+        _audioPlayer.seek(const Duration(seconds: 0));
+        _audioPlayer.pause();
+        _isPlaying = false;
       });
 
-      Fluttertoast.showToast(msg: "You have $_guesses guesses");
+      Fluttertoast.showToast(
+          msg: "You have ${_maxGuesses - _guesses} guesses left.");
     }
 
     if (_guesses == _maxGuesses) {
@@ -61,7 +70,8 @@ class _GuessPageState extends State<GuessPage> {
   }
 
   // Play the audio
-  void _playAudio(_) {
+  void _playOrPauseAudio(_) {
+    _audioPlayer.playOrPause();
     setState(() {
       _isPlaying = !_isPlaying;
     });
@@ -80,10 +90,16 @@ class _GuessPageState extends State<GuessPage> {
     print(prefs.getStringList('games'));
   }
 
+  Future<bool> didPopRoute() async {
+    _audioPlayer.dispose();
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<Playlist> playlistlist =
-        ModalRoute.of(context)?.settings.arguments as List<Playlist>;
+    final List<sp_playlist.Playlist> playlistlist = ModalRoute.of(context)
+        ?.settings
+        .arguments as List<sp_playlist.Playlist>;
 
     final List<Song> songlist =
         playlistlist.expand((playlist) => playlist.songs).toList();
@@ -105,6 +121,15 @@ class _GuessPageState extends State<GuessPage> {
       song ??= selectRandomSong();
     }
 
+    if (!_audioPlayer.current.hasValue) {
+      print("Opening audio player");
+      _audioPlayer.open(
+        audio_player.Audio.file(song!.audioFilePath),
+      );
+      _audioPlayer.setVolume(0.5);
+      _audioPlayer.play();
+    }
+
     return SpordleScaffold(
         pageTitleText: "Guess the song",
         content: Column(children: [
@@ -112,7 +137,7 @@ class _GuessPageState extends State<GuessPage> {
           SongTile(
               song: _hasGuessed || _hasLost ? song! : mysterySong,
               isSelected: _isPlaying,
-              select: _playAudio,
+              select: _playOrPauseAudio,
               isPlaying: _isPlaying),
           GuessSongLifebar(
               maxGuesses: _maxGuesses,
