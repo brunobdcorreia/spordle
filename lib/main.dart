@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           '/select': (context) => const SelectPlaylistsPage(),
           '/game': (context) => const GamePage(),
           '/guess': (context) => const GuessPage(),
-          '/statistic': (context) => const Statistic(),
+          '/statistics': (context) => const Statistic(),
         });
   }
 }

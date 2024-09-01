@@ -37,13 +37,10 @@ class _SelectPlaylistsPageState extends State<SelectPlaylistsPage> {
   }
 
   String _getButtonText() {
-    if (_amountSelectedPlaylists > 1) {
+    if (_amountSelectedPlaylists >= 1) {
       return "Play with $_amountSelectedPlaylists playlists";
     }
-    if (_amountSelectedPlaylists == 1) {
-      return "Select at least one more playlist";
-    }
-    return "Select at least two playlists";
+    return "Select at least one playlist";
   }
 
   void _select(int index, bool isSelected) {
@@ -79,7 +76,7 @@ class _SelectPlaylistsPageState extends State<SelectPlaylistsPage> {
               width: MediaQuery.of(context).size.width,
               child: RoundRectangularButton(
                   labelText: _getButtonText(),
-                  isActive: _amountSelectedPlaylists > 1,
+                  isActive: _amountSelectedPlaylists >= 1,
                   onPressAction: _pickPlaylistsAndGoToGame))
         ]));
   }

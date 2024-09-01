@@ -2,15 +2,15 @@ Feature: Escrever suposições das músicas
 
 Scenario: User guesses a song by typing on the first try
 Given the user is on the game screen
-Given that the correct answer is {"505"}
+Given that the correct answer is {"Tango Noir"}
 When the user sees a text box
-  And the user types {"505"}
+  And the user types {"Tango Noir"}
   And the user clicks on the "Guess" button
 Then the system should show that answer is correct
 
 Scenario: User doesn't guess the song on the first try
 Given the user is on the game screen
-Given that the correct answer is {"Arabella"}
+Given that the correct answer is {"Tango Noir"}
 When the user sees a text box
   And the user types {"505"}
   And the user clicks on the "Guess" button

@@ -148,12 +148,6 @@ class _GuessPageState extends State<GuessPage> {
               correctSong: song!,
               onGuess: _onGuess,
               isGameRunning: (!_hasLost && !_hasGuessed)),
-          Container(
-              width: MediaQuery.of(context).size.width,
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              child: RoundRectangularButton(
-                  labelText: "Play again on this playlist",
-                  onPressAction: () {})),
         ]));
   }
 }

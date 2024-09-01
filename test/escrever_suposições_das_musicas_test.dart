@@ -17,16 +17,16 @@ void main() {
     testWidgets('''User guesses a song by typing on the first try''',
         (tester) async {
       await theUserIsOnTheGameScreen(tester);
-      await thatTheCorrectAnswerIs(tester, "505");
+      await thatTheCorrectAnswerIs(tester, "Tango Noir");
       await theUserSeesATextBox(tester);
-      await theUserTypes(tester, "505");
+      await theUserTypes(tester, "Tango Noir");
       await theUserClicksOnTheGuessButton(tester);
       await theSystemShouldShowThatAnswerIsCorrect(tester);
     });
     testWidgets('''User doesn't guess the song on the first try''',
         (tester) async {
       await theUserIsOnTheGameScreen(tester);
-      await thatTheCorrectAnswerIs(tester, "Arabella");
+      await thatTheCorrectAnswerIs(tester, "Tango Noir");
       await theUserSeesATextBox(tester);
       await theUserTypes(tester, "505");
       await theUserClicksOnTheGuessButton(tester);

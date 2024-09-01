@@ -19,6 +19,8 @@ class SpordleScaffold extends StatefulWidget {
 class _SpordleScaffoldState extends State<SpordleScaffold> {
   @override
   Widget build(BuildContext context) {
+    final currentRoute = ModalRoute.of(context)?.settings.name;
+
     Widget body = widget.showWallpaper
         ? Stack(children: [
             SizedBox.expand(
@@ -30,6 +32,35 @@ class _SpordleScaffoldState extends State<SpordleScaffold> {
           ])
         : widget.content;
     return Scaffold(
-        appBar: SpordleBar(title: widget.pageTitleText), body: body);
+        appBar: currentRoute == "/"
+            ? AppBar(
+                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                automaticallyImplyLeading: false,
+                title: Text(widget.pageTitleText,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 20)),
+              )
+            : SpordleBar(
+                title: widget.pageTitleText,
+                actions: [
+                  Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: IconButton(
+                          icon: Icon(Icons.home),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/select');
+                          })),
+                  Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: IconButton(
+                        icon: Icon(Icons.bar_chart),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/statistics');
+                        },
+                      ))
+                ],
+              ),
+        body: body);
   }
 }
